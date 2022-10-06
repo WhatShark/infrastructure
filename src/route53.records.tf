@@ -8,6 +8,7 @@ resource "aws_route53_record" "github-challenge-mukvoting" {
 
 resource "aws_route53_record" "keybase" {
   zone_id = aws_route53_zone.main.zone_id
+  name    = "whatshark.com"
   type    = "TXT"
   ttl     = 3600
   records = ["keybase-site-verification=0-xAbh86MC_fqONGB5gStg6Z59JChhATmwgNEC4VS6"]
