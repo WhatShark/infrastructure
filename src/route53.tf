@@ -8,7 +8,7 @@ resource "aws_kms_key" "main-dnssec-key" {
 }
 
 resource "aws_kms_alias" "main-dnssec-key-alias" {
-  provider = aws.us-east-1
+  provider      = aws.us-east-1
   name          = "alias/main-dnssec-key"
   target_key_id = aws_kms_key.main-dnssec-key.key_id
 }
