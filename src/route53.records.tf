@@ -22,42 +22,26 @@ resource "aws_route53_record" "github-pages-whatshark" {
   records = ["73f6c2e828fd4ad858453addec73af"]
 }
 
-resource "aws_route53_record" "calendar" {
+resource "aws_route53_record" "google-workspace-redirect" {
+  count   = length(var.google-workspace-domain-cnames)
   zone_id = aws_route53_zone.main.zone_id
-  name    = "calendar"
+  name    = element(var.google-workspace-domain-cnames, count.index)
   type    = "CNAME"
-  ttl     = 3600
   records = ["ghs.googlehosted.com"]
+  ttl     = "3600"
+
 }
 
-resource "aws_route53_record" "drive" {
+resource "aws_route53_record" "google-workspace" {
   zone_id = aws_route53_zone.main.zone_id
-  name    = "drive"
-  type    = "CNAME"
-  ttl     = 3600
-  records = ["ghs.googlehosted.com"]
-}
-
-resource "aws_route53_record" "gmail" {
-  zone_id = aws_route53_zone.main.zone_id
-  name    = "gmail"
-  type    = "CNAME"
-  ttl     = 3600
-  records = ["ghs.googlehosted.com"]
-}
-
-resource "aws_route53_record" "groups" {
-  zone_id = aws_route53_zone.main.zone_id
-  name    = "groups"
-  type    = "CNAME"
-  ttl     = 3600
-  records = ["ghs.googlehosted.com"]
-}
-
-resource "aws_route53_record" "sites" {
-  zone_id = aws_route53_zone.main.zone_id
-  name    = "sites"
-  type    = "CNAME"
-  ttl     = 3600
-  records = ["ghs.googlehosted.com"]
+  name    = ""
+  type    = "MX"
+  records = [
+    "1 aspmx.l.google.com",
+    "5 alt1.aspmx.l.google.com",
+    "5 alt2.aspmx.l.google.com",
+    "10 alt3.aspmx.l.google.com",
+    "10 alt4.aspmx.l.google.com",
+  ]
+  ttl = 3600
 }
