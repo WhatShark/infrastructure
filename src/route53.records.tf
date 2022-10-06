@@ -4,7 +4,7 @@ resource "aws_route53_record" "txt-root" {
   type    = "TXT"
   ttl     = 3600
   records = [
-    "keybase-site-verification=0-xAbh86MC_fqONGB5gStg6Z59JChhATmwgNEC4VS6",
+    "keybase-site-verification=0-xAbh86MC_fqONGB5gStg6Z59JChhATmwgNEC4VS6U",
     "v=spf1 include:_spf.google.com ~all"
   ]
 }
