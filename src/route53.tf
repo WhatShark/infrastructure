@@ -62,6 +62,11 @@ resource "aws_kms_key" "main-dnssec-key" {
   policy                   = data.aws_iam_policy_document.route53-dnssec-policy.json
 }
 
+resource "aws_kms_alias" "main-dnssec-key-alias" {
+  name          = "alias/main-dnssec-key"
+  target_key_id = aws_kms_key.main-dnssec-key.key_id
+}
+
 resource "aws_route53_zone" "main" {
   name = "whatshark.com"
 }
