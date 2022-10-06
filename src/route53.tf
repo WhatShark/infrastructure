@@ -54,6 +54,7 @@ data "aws_iam_policy_document" "route53-dnssec-policy" {
 }
 
 resource "aws_kms_key" "main-dnssec-key" {
+  provider                 = aws.us-east-1
   description              = "Used for signing and verifying DNSSEC requests for whatshark.com"
   key_usage                = "SIGN_VERIFY"
   customer_master_key_spec = "ECC_NIST_P256"
