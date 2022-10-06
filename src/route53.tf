@@ -1,25 +1,23 @@
-resource "aws_route53_zone" "main" {
-  name = "whatshark.com"
-}
-
 resource "aws_kms_key" "main-dnssec-key" {
-  description = "Used for signing and verifying DNSSEC requests for whatshark.com"
-  key_usage = "SIGN_VERIFY"
+  description              = "Used for signing and verifying DNSSEC requests for whatshark.com"
+  key_usage                = "SIGN_VERIFY"
   customer_master_key_spec = "ECC_NIST_P256"
-  deletion_window_in_days = 7
+  deletion_window_in_days  = 7
   policy = jsonencode({
+    Version = "2012-10-17"
+    id = "dnssec-policy"
     Statement = [
       {
-        Action = [
-          "kms:DescribeKey",
-          "kms:GetPublicKey",
-          "kms:Sign",
-        ],
+        Sid    = "Allow Route 53 DNSSEC Service"
         Effect = "Allow"
         Principal = {
           Service = "dnssec-route53.amazonaws.com"
         }
-        Sid      = "Allow Route 53 DNSSEC Service",
+        Action = [
+          "kms:DescribeKey",
+          "kms:GetPublicKey",
+          "kms:Sign",
+        ]
         Resource = "*"
         Condition = {
           StringEquals = {
@@ -31,12 +29,12 @@ resource "aws_kms_key" "main-dnssec-key" {
         }
       },
       {
-        Action = "kms:CreateGrant",
+        Sid    = "Allow Route 53 DNSSEC Service to CreateGrant"
         Effect = "Allow"
         Principal = {
           Service = "dnssec-route53.amazonaws.com"
         }
-        Sid      = "Allow Route 53 DNSSEC Service to CreateGrant",
+        Action   = "kms:CreateGrant"
         Resource = "*"
         Condition = {
           Bool = {
@@ -45,22 +43,25 @@ resource "aws_kms_key" "main-dnssec-key" {
         }
       },
       {
-        Action = "kms:*"
+        Sid    = "Enable IAM User Permissions"
         Effect = "Allow"
         Principal = {
           AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
         }
+        Action   = "kms:*"
         Resource = "*"
-        Sid      = "Enable IAM User Permissions"
-      },
+      }
     ]
-    Version = "2012-10-17"
   })
 }
 
+resource "aws_route53_zone" "main" {
+  name = "whatshark.com"
+}
+
 resource "aws_route53_key_signing_key" "main-dnssec-key" {
-  name = "dnssec"
-  hosted_zone_id = aws_route53_zone.main.id
+  name                       = "whatshark-dnssec"
+  hosted_zone_id             = aws_route53_zone.main.id
   key_management_service_arn = aws_kms_key.main-dnssec-key.arn
 }
 
