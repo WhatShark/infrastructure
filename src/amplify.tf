@@ -18,14 +18,14 @@ resource "aws_amplify_app" "portfolio" {
                     - npm ci
             build:
                 commands:
-                    -   npm run build
+                    - npm run build
         artifacts:
-            baseDirectory: build
+            baseDirectory: out
             files:
                 - '**/*'
         cache:
             paths:
-            - node_modules/**/*
+              - node_modules/**/*
   EOT
 
   custom_rule {
@@ -64,10 +64,4 @@ resource "aws_amplify_domain_association" "portfolio" {
     branch_name = aws_amplify_branch.portfolio-main.branch_name
     prefix      = "www"
   }
-}
-
-resource "aws_amplify_webhook" "portfolio-main" {
-  app_id      = aws_amplify_app.portfolio.id
-  branch_name = aws_amplify_branch.portfolio-main.branch_name
-  description = "main-branch-trigger"
 }
