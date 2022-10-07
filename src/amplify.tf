@@ -1,5 +1,6 @@
 variable "portfolio-github-access-token" {
   type = string
+  sensitive = true
 }
 
 resource "aws_amplify_app" "portfolio" {
