@@ -13,15 +13,15 @@ resource "aws_amplify_app" "portfolio" {
     frontend:
         phases:
             preBuild:
-            commands:
-                - npm ci
+                commands:
+                    - npm ci
             build:
-            commands:
-                - npm run build
+                commands:
+                    -   npm run build
         artifacts:
             baseDirectory: build
             files:
-            - '**/*'
+                - '**/*'
         cache:
             paths:
             - node_modules/**/*
