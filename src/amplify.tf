@@ -1,11 +1,11 @@
 variable "portfolio-github-access-token" {
-  type = string
+  type      = string
   sensitive = true
 }
 
 resource "aws_amplify_app" "portfolio" {
-  name       = "portfolio"
-  repository = "https://github.com/WhatShark/portfolio"
+  name         = "portfolio"
+  repository   = "https://github.com/WhatShark/portfolio"
   access_token = var.portfolio-github-access-token
 
   build_spec = <<-EOT
@@ -41,8 +41,8 @@ resource "aws_amplify_app" "portfolio" {
 }
 
 resource "aws_amplify_branch" "portfolio-main" {
-  app_id      = aws_amplify_app.portfolio.id
-  branch_name = "main"
+  app_id            = aws_amplify_app.portfolio.id
+  branch_name       = "main"
   enable_auto_build = true
 
   framework = "React"
