@@ -65,3 +65,9 @@ resource "aws_amplify_domain_association" "portfolio" {
     prefix      = "www"
   }
 }
+
+resource "aws_amplify_webhook" "portfolio-main" {
+  app_id      = aws_amplify_app.portfolio.id
+  branch_name = aws_amplify_branch.portfolio-main.branch_name
+  description = "main-branch-trigger"
+}
