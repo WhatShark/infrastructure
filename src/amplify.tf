@@ -52,6 +52,7 @@ resource "aws_amplify_branch" "portfolio-main" {
 resource "aws_amplify_domain_association" "portfolio" {
   app_id      = aws_amplify_app.portfolio.id
   domain_name = "whatshark.com"
+  wait_for_verification = false
 
   sub_domain {
     branch_name = aws_amplify_branch.portfolio-main.branch_name
