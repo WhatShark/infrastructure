@@ -48,3 +48,18 @@ resource "aws_amplify_branch" "portfolio-main" {
   framework = "React"
   stage     = "PRODUCTION"
 }
+
+resource "aws_amplify_domain_association" "portfolio" {
+  app_id      = aws_amplify_app.portfolio.id
+  domain_name = "whatshark.com"
+
+  sub_domain {
+    branch_name = aws_amplify_branch.portfolio-main.branch_name
+    prefix      = ""
+  }
+
+  sub_domain {
+    branch_name = aws_amplify_branch.portfolio-main.branch_name
+    prefix      = "www"
+  }
+}
