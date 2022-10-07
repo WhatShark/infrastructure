@@ -4,9 +4,9 @@ variable "portfolio-github-access-token" {
 }
 
 resource "aws_amplify_app" "portfolio" {
-  name         = "portfolio"
-  repository   = "https://github.com/WhatShark/portfolio"
-  access_token = var.portfolio-github-access-token
+  name                     = "portfolio"
+  repository               = "https://github.com/WhatShark/portfolio"
+  access_token             = var.portfolio-github-access-token
   enable_branch_auto_build = true
 
   build_spec = <<-EOT
